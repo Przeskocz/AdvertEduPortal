@@ -18,7 +18,9 @@ public class RoleDAO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String role;
+    @Column(unique = true)
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
 
     @ManyToMany()
     @ToString.Exclude
