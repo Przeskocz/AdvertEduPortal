@@ -1,4 +1,4 @@
-package com.przeskocz.AdvertEduPortal.model.DAO;
+package com.przeskocz.AdvertEduPortal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "image")
 @Entity
-public class ImageDAO {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +22,6 @@ public class ImageDAO {
     private String src;
 
     @ToString.Exclude
-    @JoinColumn(name = "id")
     @ManyToOne()
-    private AdvertisementDAO advertisement;
+    private Advertisement advertisement;
 }

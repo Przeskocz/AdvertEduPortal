@@ -1,5 +1,6 @@
-package com.przeskocz.AdvertEduPortal.model.DAO;
+package com.przeskocz.AdvertEduPortal.model;
 
+import com.przeskocz.AdvertEduPortal.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "advertisement")
 @Entity
-public class AdvertisementDAO {
+public class Advertisement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,20 +26,18 @@ public class AdvertisementDAO {
     private Double price;
     private LocalDateTime startDate;
 
-    @JoinColumn(name = "id")
     @ManyToOne()
-    private CityDAO city;
+    private City city;
 
-    @JoinColumn(name = "id")
     @ManyToOne()
-    private CategoryDAO category;
+    private Category category;
 
-    @JoinColumn(name = "id")
     @ManyToOne()
-    private UniversityDAO university;
+    private University university;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advertisement")
-    private List<ImageDAO> images;
+    private List<Image> images;
 
-    //TODO User / Owner
+    @ManyToOne()
+    private User user;
 }

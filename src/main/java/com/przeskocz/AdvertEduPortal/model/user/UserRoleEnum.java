@@ -1,4 +1,4 @@
-package com.przeskocz.AdvertEduPortal.model.DAO.user;
+package com.przeskocz.AdvertEduPortal.model.user;
 
 public enum UserRoleEnum {
     NORMAL, ADMIN;

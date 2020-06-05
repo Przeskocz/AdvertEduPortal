@@ -1,29 +1,29 @@
-package com.przeskocz.AdvertEduPortal.model.DAO;
+package com.przeskocz.AdvertEduPortal.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name = "city")
+@Table
 @Entity
-public class CityDAO {
+public class City {
     @Id
+    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private String name;
 
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
-    private List<AdvertisementDAO> advertisements;
+    private List<Advertisement> advertisements;
 
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
-    private List<UniversityDAO> universities;
+    private List<University> universities;
 }
