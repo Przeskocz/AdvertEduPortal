@@ -1,5 +1,6 @@
 package com.przeskocz.AdvertEduPortal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.przeskocz.AdvertEduPortal.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "advertisement")
 @Entity
 public class Advertisement {
     @Id

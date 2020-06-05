@@ -1,5 +1,6 @@
 package com.przeskocz.AdvertEduPortal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table
+@JsonIgnoreProperties({"advertisements", "universities"})
 @Entity
 public class City {
     @Id
@@ -17,6 +18,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    @Column(unique = true)
     private String name;
 
     @ToString.Exclude

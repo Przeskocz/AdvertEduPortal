@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "university")
 @Entity
 public class University {
     @Id

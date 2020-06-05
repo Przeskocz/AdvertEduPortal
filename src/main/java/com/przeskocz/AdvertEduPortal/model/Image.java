@@ -1,5 +1,6 @@
 package com.przeskocz.AdvertEduPortal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "image")
+@JsonIgnoreProperties({"advertisement"})
 @Entity
 public class Image {
     @Id

@@ -1,5 +1,6 @@
 package com.przeskocz.AdvertEduPortal.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "role")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"users"})
+@Entity
 public class Role {
     @Id
     @NonNull
@@ -32,10 +33,13 @@ public class Role {
     @ToString.Exclude
     private List<User> users;
 
-    public void addUser(User u) {
+    public boolean addUser(User u) {
         if (users == null)
             users = new ArrayList<>();
-        if (!users.contains(u))
+        if (!users.contains(u)) {
             users.add(u);
+            return true;
+        }
+        return false;
     }
 }

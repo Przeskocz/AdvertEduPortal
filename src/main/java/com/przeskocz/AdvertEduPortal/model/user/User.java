@@ -1,5 +1,6 @@
 package com.przeskocz.AdvertEduPortal.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.przeskocz.AdvertEduPortal.model.Advertisement;
 import lombok.*;
 
@@ -9,11 +10,11 @@ import java.util.Objects;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "user")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"advertisements"})
+@Entity
 public class User {
     @Id
     @NonNull
