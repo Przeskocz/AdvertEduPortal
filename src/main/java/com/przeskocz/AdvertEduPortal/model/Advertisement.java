@@ -1,6 +1,5 @@
 package com.przeskocz.AdvertEduPortal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.przeskocz.AdvertEduPortal.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Advertisement {
+public class Advertisement implements Comparable<Advertisement> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,4 +39,17 @@ public class Advertisement {
 
     @ManyToOne()
     private User user;
+
+    public boolean isActive() {
+        return getExpirationDate().compareTo(LocalDateTime.now()) >= 0;
+    }
+
+    @Override
+    public int compareTo(Advertisement o) {
+        if (this.startDate == null)
+            return 1;
+        if (o.startDate == null)
+            return -1;
+        return o.getStartDate().compareTo(this.startDate);
+    }
 }

@@ -7,8 +7,6 @@ import com.przeskocz.AdvertEduPortal.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserAndRoleService {
     private final RoleDAO roleDAO;
@@ -47,4 +45,22 @@ public class UserAndRoleService {
 
         return result;
     }
+
+    public Role save(Role r) {
+        return roleDAO.save(r);
+    }
+
+    public User save(User r) {
+        return  userDAO.save(r);
+    }
+
+    public User findUserByEmail(String name) {
+        return userDAO.findByName(name).orElse(null);
+    }
+
+    public Long countAllUsers() {
+        return userDAO.count();
+    }
+
+
 }

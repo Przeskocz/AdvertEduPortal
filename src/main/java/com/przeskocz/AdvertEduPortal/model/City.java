@@ -8,13 +8,11 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"advertisements", "universities"})
 @Entity
 public class City {
     @Id
-    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
@@ -28,4 +26,14 @@ public class City {
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
     private List<University> universities;
+
+
+    public City(String name) {
+        this(-1L, name);
+    }
+
+    public City(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

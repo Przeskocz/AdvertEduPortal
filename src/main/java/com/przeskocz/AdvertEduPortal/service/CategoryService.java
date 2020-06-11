@@ -23,6 +23,10 @@ public class CategoryService {
         if (result == null)
             result = categoryDAO.save(category);
 
-        return  result;
+        return result;
+    }
+
+    public Category save(Category c) {
+        return categoryDAO.save(c);
     }
 }

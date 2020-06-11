@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <object th:include="/fragments/header :: header-css" th:remove="tag"/>
+</head>
+<body>
+<th:block th:replace="/fragments/header :: header" th:remove="tag"></th:block>
+
+<!-- THREE BUTTONS SECTIONS -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- catbutton -->
+            <div class="col-md-4 col-xs-6">
+                <div class="catbutton">
+                    <div class="catbutton-img">
+                        <img th:src="@{/img/shop01.png}" src="../static/img/shop01.png" alt="">
+                    </div>
+                    <div class="catbutton-body">
+                        <h3>Uczelnie<br>wyższe</h3>
+                        <a th:href="@{/advertisement/list}" class="cta-btn">Szukaj <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /catbutton -->
+
+            <!-- catbutton -->
+            <div class="col-md-4 col-xs-6">
+                <div class="catbutton">
+                    <div class="catbutton-img">
+                        <img th:src="@{/img/shop02.png}" src="../static/img/shop02.png" alt="">
+                    </div>
+                    <div class="catbutton-body">
+                        <h3>Miasta<br>akademickie</h3>
+                        <a th:href="@{/advertisement/list}" class="cta-btn">Szukaj <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /catbutton -->
+
+            <!-- catbutton -->
+            <div class="col-md-4 col-xs-6">
+                <div class="catbutton">
+                    <div class="catbutton-img">
+                        <img th:src="@{/img/shop03.png}" src="../static/img/shop03.png" alt="">
+                    </div>
+                    <div class="catbutton-body">
+                        <h3>Wszystkie<br>ogłoszenia</h3>
+                        <a th:href="@{/advertisement/list}" class="cta-btn">Szukaj <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /catbutton -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /THREE BUTTONS SECTIONS -->
+
+<!-- NEW PRODUCT SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">Nowe ogłoszenia</h3>
+                </div>
+            </div>
+            <!-- /section title -->
+
+            <!-- Advertisements tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="advertisements-tabs">
+                        <div id="tab1" class="tab-pane active">
+                            <div class="advertisements-slick" data-nav="#slick-nav-1">
+                                <!-- advertisement -->
+                                <!--/*@thymesVar id="newAdvertisementsList" type="java.util.List"*/-->
+                                <th:block th:each="advertisement : ${newAdvertisementsList}">
+                                    <object th:include="/fragments/advertisement_card :: advertisement" th:remove="tag"></object>
+                                </th:block>
+                                <!-- /advertisement -->
+                            </div>
+                            <div id="slick-nav-1" class="advertisements-slick-nav"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Advertisements tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /NEW PRODUCT SECTION -->
+
+<!-- STATICS SECTION -->
+<div id="statics" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="statics">
+                    <ul class="statics-countdown">
+                        <li>
+                            <div th:if="${countUniversiteis != null}">
+                                <h3 th:text="${countUniversiteis}">4</h3>
+                                <span>Uczelni</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div th:if="${countStudents != null}">
+                                <h3 th:text="${countStudents}">4</h3>
+                                <span>Studentów</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div th:if="${countCategories != null}">
+                                <h3 th:text="${countCategories}">4</h3>
+                                <span>Kategorii</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div th:if="${countAdvertisements != null}">
+                                <h3 th:text="${countAdvertisements}">4</h3>
+                                <span>Ogłoszeń</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /STATICS SECTION -->
+
+<th:block th:replace="/fragments/footer :: footer" th:remove="tag"></th:block>
+
+</body>
+</html>

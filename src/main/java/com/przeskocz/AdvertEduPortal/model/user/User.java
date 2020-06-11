@@ -11,13 +11,11 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"advertisements"})
 @Entity
 public class User {
     @Id
-    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
@@ -26,8 +24,6 @@ public class User {
     private String email;
     @NonNull
     private String password;
-    @NonNull
-    private int active;
 
     @ManyToMany(mappedBy = "users")
     private Set<Role> roles;
@@ -35,6 +31,17 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @ToString.Exclude
     private List<Advertisement> advertisements;
+
+    public User(String name, String email, String password) {
+        this(-1L, name, email, password);
+    }
+
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public boolean equals(Object o) {

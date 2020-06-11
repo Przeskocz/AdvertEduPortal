@@ -27,4 +27,8 @@ public class CityService {
 
         return result;
     }
+
+    public City save(City c) {
+        return cityDAO.save(c);
+    }
 }

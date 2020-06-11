@@ -9,13 +9,11 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"users"})
 @Entity
 public class Role {
     @Id
-    @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -32,6 +30,15 @@ public class Role {
     )
     @ToString.Exclude
     private List<User> users;
+
+    public Role(UserRoleEnum role) {
+        this(-1L, role);
+    }
+
+    public Role(Long id, UserRoleEnum role) {
+        this.id = id;
+        this.role = role;
+    }
 
     public boolean addUser(User u) {
         if (users == null)

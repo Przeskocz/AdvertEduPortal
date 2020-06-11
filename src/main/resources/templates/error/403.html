@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Brak dostępu - 403</title>
+    <object th:include="/fragments/header :: header-css" th:remove="tag"/>
+</head>
+<body>
+
+<div th:replace="/fragments/header :: header"/>
+
+
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-7">
+                <!-- Billing Details -->
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Error 403</h3>
+                        <h5>Nie masz dostępu do tej treści</h5>
+                        <p>Witaj [[${#httpServletRequest.getRemoteUser()}]], sprawdź adres strony, lub przejdź do strony
+                            głównej, lub spróbuj ponownie później :)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="/fragments/footer :: footer"/>
+
+</body>
+</html>

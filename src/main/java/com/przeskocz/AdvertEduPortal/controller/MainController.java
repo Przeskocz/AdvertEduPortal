@@ -1,80 +1,46 @@
 package com.przeskocz.AdvertEduPortal.controller;
 
-import com.przeskocz.AdvertEduPortal.DAO.*;
-import com.przeskocz.AdvertEduPortal.model.*;
-import com.przeskocz.AdvertEduPortal.model.user.*;
-import com.przeskocz.AdvertEduPortal.service.CategoryService;
-import com.przeskocz.AdvertEduPortal.service.CityService;
-import com.przeskocz.AdvertEduPortal.service.UniversityService;
-import com.przeskocz.AdvertEduPortal.service.UserAndRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.przeskocz.AdvertEduPortal.model.user.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.przeskocz.AdvertEduPortal.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-@RestController
-@ResponseBody
-public class MainController {
-    private final AdvertisementDAO advertisementDAO;
-    private final CategoryDAO categoryDAO;
-    private final CityDAO cityDAO;
-    private final RoleDAO roleDAO;
-    private final UniversityDAO universityDAO;
-    private final UserDAO userDAO;
+@Controller
+public class MainController extends CommonController{
     private final UserAndRoleService userAndRoleService;
     private final CategoryService categoryService;
     private final CityService cityService;
     private final UniversityService universityService;
+    private final AdvertisementService advertisementService;
 
     @Autowired
-    public MainController(AdvertisementDAO advertisementDAO, CategoryDAO categoryDAO, CityDAO cityDAO, UniversityDAO universityDAO, UserDAO userDAO, RoleDAO roleDAO, UserAndRoleService userAndRoleService, CategoryService categoryService, CityService cityService, UniversityService universityService) {
-        this.advertisementDAO = advertisementDAO;
-        this.categoryDAO = categoryDAO;
-        this.cityDAO = cityDAO;
-        this.universityDAO = universityDAO;
-        this.userDAO = userDAO;
-        this.roleDAO = roleDAO;
+    public MainController(UserAndRoleService userAndRoleService, CategoryService categoryService, CityService cityService, UniversityService universityService, AdvertisementService advertisementService) {
         this.userAndRoleService = userAndRoleService;
         this.categoryService = categoryService;
         this.cityService = cityService;
         this.universityService = universityService;
+        this.advertisementService = advertisementService;
     }
 
-    @GetMapping("/")
-    public Advertisement getSimpleAdvertisement(){
-        Category cat1 = categoryService.findOrCreate(new Category(-1L, "Książki"));
-        cat1 = categoryDAO.save(cat1);
+    @GetMapping({"/", "/home"})
+    public String homePage(Model model) {
+        buildMyModel(model);
 
-        City city1 = cityService.findOrCreate(new City(-1L, "Rzeszów"));
-        city1 = this.cityDAO.save(city1);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = new User();
+        if (auth != null)
+            user = userAndRoleService.findUserByEmail(auth.getName());
 
-        University univ1 = universityService.findOrCreate(new University(-1L, "Politechnika Rzeszowska im. Ignecego Łukasiewicza", "PRz", city1));
-        univ1 = this.universityDAO.save(univ1);
-
-        User u1 = userAndRoleService.findOrCreateUser(new User(-1L, "Przeskocz", "skoczp@gmail.com", "qwerty", 1));
-
-        Role r1 = userAndRoleService.findOrCreateRole(new Role(-1L, UserRoleEnum.ADMIN));
-        if (r1.addUser(u1))
-            this.roleDAO.save(r1);
-
-        Advertisement adv = new Advertisement();
-        adv.setId(-1L);
-        adv.setTitle("Testowe ogłoszenie");
-        adv.setDescription("To jest ogłoszenie testowe. Sprawdzamy czy serwer działa poprawnie :)");
-        adv.setPrice(99.99);
-        adv.setStartDate(LocalDateTime.now());
-        adv.setExpirationDate(LocalDateTime.now().plusDays(14));
-        adv.setImages(new ArrayList<>());
-
-        adv.setCategory(cat1);
-        adv.setCity(city1);
-        adv.setUniversity(univ1);
-        adv.setUser(u1);
-        adv = this.advertisementDAO.save(adv);
-
-        return adv;
+        model.addAttribute("user", user);
+        model.addAttribute("newAdvertisementsList", advertisementService.getAllNewAdvertisements());
+        model.addAttribute("countUniversiteis", commonService.countAllUniversities());
+        model.addAttribute("countStudents", userAndRoleService.countAllUsers());
+        model.addAttribute("countCategories", commonService.countAllCategories());
+        model.addAttribute("countAdvertisements", advertisementService.getAllActualAdvertisements().size());
+        return "index";
     }
 }

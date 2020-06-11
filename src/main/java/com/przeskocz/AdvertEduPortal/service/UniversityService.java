@@ -19,10 +19,14 @@ public class UniversityService {
             throw new NullPointerException("The university param cannot be null!");
         University result = universityDAO.findById(university.getId()).orElse(null);
         if (result == null)
-            result =universityDAO.findByNameContainingIgnoreCase(university.getName()).orElse(null);
+            result = universityDAO.findByNameContainingIgnoreCase(university.getName()).orElse(null);
         if (result == null)
             result = universityDAO.save(university);
 
         return result;
+    }
+
+    public University save(University u) {
+        return universityDAO.save(u);
     }
 }

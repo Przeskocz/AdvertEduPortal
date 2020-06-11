@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="footer" th:remove="tag">
+    <!-- FOOTER -->
+    <footer id="footer">
+        <!-- top footer -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-4 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Wykonał</h3>
+                            <p>Paweł Skocz</p>
+                            <p>Politechnika Rzeszowska</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Kategorie</h3>
+                            <!--/*@thymesVar id="mapSearchOptions" type="java.util.Map<java.lang.Long, java.lang.String>"*/-->
+                            <ul class="footer-links">
+                                <li th:each="entry : ${mapSearchOptions?.entrySet()}"><a href="#" th:text="${entry.value}">kat</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix visible-xs"></div>
+
+                    <div class="col-md-4 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Technologie</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Spring Boot & Java</a></li>
+                                <li><a href="#">Thymeleaf</a></li>
+                                <li><a href="#">JPA repositories</a></li>
+                                <li><a href="#">Lombok</a></li>
+                                <li><a href="#">Bootstrap</a></li>
+                                <li><a href="#">Font Awesome</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /top footer -->
+
+        <!-- bottom footer -->
+        <div id="bottom-footer" class="section">
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <span class="copyright">
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> Wszystkie prawa zastrzeżone
+                        </span>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /bottom footer -->
+    </footer>
+    <!-- /FOOTER -->
+
+    <!-- jQuery Plugins -->
+
+    <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/slick.min.js}" src="../static/js/slick.min.js"></script>
+    <script th:src="@{/js/jquery.zoom.min.js}" src="../static/js/jquery.zoom.min.js"></script>
+    <script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+
+</div>
+</body>
+</html>

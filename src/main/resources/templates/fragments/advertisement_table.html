@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="advertisement_row">
+    <tr>
+        <td> <!-- Zdjęcie -->
+            <img src="../static/img/product01.png"
+                 th:src="${!advertisement?.images?.isEmpty() ? advertisement?.images?.get(0)?.path : '/img/product01.png' }"
+                 th:alt="${!advertisement?.images?.isEmpty() ? advertisement?.images?.get(0)?.alt : advertisement.title }">
+        </td>
+        <td> <!-- Tytuł -->
+            <a th:href="${'/advertisement/' + advertisement.id}" th:text="${advertisement.title}">Tytuł</a>
+        </td>
+        <!-- Cena -->
+        <td th:utext="${advertisement.price != null ? advertisement.price + ' zł' : '&nbsp;'}"></td>
+
+        <!-- Data dodania -->
+        <td th:text="${advertisement.getFormattedStartDate()}"></td>
+
+        <!-- Data zakończenia -->
+        <td th:text="${advertisement.getFormattedExpirationDate()}"></td>
+
+        <!-- Kategoria / Uniwersytet / Miasto -->
+        <td th:text="${advertisement.category?.categoryName + ' / ' + advertisement.university?.shortName + ' / ' + advertisement.city?.cityName }"></td>
+
+        <!-- Edytuj / Usuń< -->
+        <td>
+            <a th:href="${'/user/advertisements/edit/' + advertisement.id}"  style="color: #2973a5">Edytuj</a>
+            &nbsp;
+            <a th:href="${'/user/advertisements/delete/' + advertisement.id}" style="color: red">Usuń</a>
+        </td>
+    </tr>
+</div>
+</body>
+</html>

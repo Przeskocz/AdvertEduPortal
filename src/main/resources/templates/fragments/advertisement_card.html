@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+    <div th:fragment="advertisement">
+        <div class="advertisement">
+            <div class="advertisement-img">
+                <!--/*@thymesVar id="images" type="java.util.List<Image>"*/-->
+                <a th:href="${'/advertisement/' + advertisement.id}"></a>
+                <img src="../static/img/product01.png"
+                     th:src="${!advertisement?.images?.isEmpty() ? advertisement?.images?.get(0)?.path : '/img/product01.png' }"
+                     th:alt="${!advertisement?.images?.isEmpty() ? advertisement?.images?.get(0)?.alt : advertisement.title }">
+            </div>
+            <div class="advertisement-body">
+                <p class="advertisement-category"
+                   th:text="${advertisement.category?.getCategoryName() + ' / ' + advertisement.university?.shortName}">
+                    Kategoria</p>
+                <p class="advertisement-place"
+                   th:text="${advertisement.city?.cityName != null ? advertisement.city?.cityName : '&nbsp;'}"></p>
+
+                <h3 class="advertisement-name"><a th:href="${'/advertisement/' + advertisement.id}"
+                                            th:text="${advertisement.title}">Tytuł</a></h3>
+                <h4 class="advertisement-price"
+                    th:utext="${advertisement.price != null ? advertisement.price + ' zł' : '&nbsp;'}"></h4>
+                <p class="advertisement-date"
+                   th:text="${'Dodano: ' + advertisement.getFormattedStartDate()}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
