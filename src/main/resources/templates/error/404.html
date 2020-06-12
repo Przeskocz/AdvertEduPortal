@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Strona nie istnieje - 404</title>
-    <object th:include="/fragments/header :: header-css" th:remove="tag"/>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
 </head>
 <body>
 
-<div th:replace="/fragments/header :: header"/>
+<div th:replace="fragments/header :: header"/>
 
 
 <div class="section">
@@ -30,7 +30,7 @@
 </div>
 <!-- /.container -->
 
-<div th:replace="/fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"/>
 
 </body>
 </html>
