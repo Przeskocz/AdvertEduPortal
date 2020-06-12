@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <object th:include="/fragments/header :: header-css" th:remove="tag"/>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
 </head>
 <body>
-<th:block th:replace="/fragments/header :: header" th:remove="tag"></th:block>
+<th:block th:replace="fragments/header :: header" th:remove="tag"></th:block>
 
 <!-- THREE BUTTONS SECTIONS -->
 <div class="section">
@@ -84,7 +84,7 @@
                                 <!-- advertisement -->
                                 <!--/*@thymesVar id="newAdvertisementsList" type="java.util.List"*/-->
                                 <th:block th:each="advertisement : ${newAdvertisementsList}">
-                                    <object th:include="/fragments/advertisement_card :: advertisement" th:remove="tag"></object>
+                                    <object th:include="fragments/advertisement_card :: advertisement" th:remove="tag"></object>
                                 </th:block>
                                 <!-- /advertisement -->
                             </div>
