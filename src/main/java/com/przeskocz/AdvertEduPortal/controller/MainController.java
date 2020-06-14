@@ -1,13 +1,22 @@
 package com.przeskocz.AdvertEduPortal.controller;
 
-import com.przeskocz.AdvertEduPortal.model.user.User;
+import com.przeskocz.AdvertEduPortal.model.DTO.UserDTO;
+import com.przeskocz.AdvertEduPortal.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.przeskocz.AdvertEduPortal.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class MainController extends CommonController{
@@ -42,5 +51,30 @@ public class MainController extends CommonController{
         model.addAttribute("countCategories", commonService.countAllCategories());
         model.addAttribute("countAdvertisements", advertisementService.getAllActualAdvertisements().size());
         return "index";
+    }
+
+    @GetMapping({"/logon", "/registration"})
+    public String loginForm(Model model) {
+        buildMyModel(model);
+        model.addAttribute("accountDto", new UserDTO());
+        model.addAttribute("logout", null);
+        return "logon";
+    }
+
+    @PostMapping("/registration")
+    public ModelAndView registerUserAccount(@ModelAttribute("accountDto") @Valid UserDTO accountDto,
+                                            BindingResult result) {
+        if (!result.hasErrors()) {
+            userAndRoleService.registerNewUserAccount(accountDto, result);
+        }
+        if (result.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("logon", "accountDto", accountDto);
+            buildMyModelAndView(modelAndView);
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("registration/success", "accountDto", accountDto);
+            buildMyModelAndView(modelAndView);
+            return modelAndView;
+        }
     }
 }

@@ -1,7 +1,6 @@
-package com.przeskocz.AdvertEduPortal.model.user;
+package com.przeskocz.AdvertEduPortal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.przeskocz.AdvertEduPortal.model.Advertisement;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +18,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    private Integer active;
+    @NonNull
     private String name;
     @NonNull
     private String email;
@@ -32,12 +33,13 @@ public class User {
     @ToString.Exclude
     private List<Advertisement> advertisements;
 
-    public User(String name, String email, String password) {
-        this(-1L, name, email, password);
+    public User(Integer active, String name, String email, String password) {
+        this(-1L, active, name, email, password);
     }
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, Integer active, String name, String email, String password) {
         this.id = id;
+        this.active = active;
         this.name = name;
         this.email = email;
         this.password = password;

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Logowanie / Rejestracja</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"></object>
+
+</head>
+<body>
+<th:block th:replace="fragments/header :: header" th:remove="tag"></th:block>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">ZALOGUJ SIĘ</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">LOGOWANIE</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <form th:action="@{/registration}" th:object="${accountDto}" method="POST" enctype="utf8">
+                    <!-- Billing Details -->
+                    <div class="billing-details">
+                        <div class="section-title text-center">
+                            <h3 class="title">Rejestracja</h3>
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{name}" type="text" placeholder="Nazwa użytkownika">
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{email}" type="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{password}" type="password" placeholder="Hasło">
+
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{matchingPassword}" type="password"
+                                   placeholder="Powtórz hasło">
+                        </div>
+                        <div class="form-group">
+                            <button class="primary-btn order-submit" type="submit">Zarejestruj</button>
+                        </div>
+                        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</p>
+                        </div>
+                    </div>
+                    <!-- /Billing Details -->
+                </form>
+
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-offset-2 col-md-5">
+                <form th:action="@{/logon}" method="post">
+                    <fieldset>
+                        <div class="order-details">
+                            <div class="section-title text-center">
+                                <h3 class="title">Logowanie</h3>
+                            </div>
+                            <div th:if="${param.error}">
+                                <div class="alert alert-danger">
+                                    Niepoprawna nazwa użytkownika i/lub hasło.
+                                </div>
+                            </div>
+                            <div th:if="${logout != null}">
+                                <div class="alert alert-info">
+                                    Zostałeś wylogowany.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input class="input" type="text" name="email" id="email" placeholder="Email"
+                                       required="true" autofocus="true">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="password" name="password" id="password" placeholder="Hasło"
+                                       required="true">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="primary-btn order-submit" type="submit">Zaloguj</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<th:block th:replace="fragments/footer :: footer" th:remove="tag"></th:block>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.przeskocz.AdvertEduPortal.DAO;
 
-import com.przeskocz.AdvertEduPortal.model.user.Role;
-import com.przeskocz.AdvertEduPortal.model.user.UserRoleEnum;
+import com.przeskocz.AdvertEduPortal.model.Role;
+import com.przeskocz.AdvertEduPortal.model.UserRoleEnum;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

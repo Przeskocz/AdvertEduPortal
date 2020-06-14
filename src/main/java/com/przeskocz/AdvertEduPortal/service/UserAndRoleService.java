@@ -2,20 +2,31 @@ package com.przeskocz.AdvertEduPortal.service;
 
 import com.przeskocz.AdvertEduPortal.DAO.RoleDAO;
 import com.przeskocz.AdvertEduPortal.DAO.UserDAO;
-import com.przeskocz.AdvertEduPortal.model.user.Role;
-import com.przeskocz.AdvertEduPortal.model.user.User;
+import com.przeskocz.AdvertEduPortal.model.DTO.UserDTO;
+import com.przeskocz.AdvertEduPortal.model.Role;
+import com.przeskocz.AdvertEduPortal.model.User;
+import com.przeskocz.AdvertEduPortal.model.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+
+import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserAndRoleService {
     private final RoleDAO roleDAO;
     private final UserDAO userDAO;
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserAndRoleService(RoleDAO roleDAO, UserDAO userDAO) {
+    public UserAndRoleService(RoleDAO roleDAO, UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
         this.roleDAO = roleDAO;
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Role findOrCreateRole(Role role) {
@@ -62,5 +73,50 @@ public class UserAndRoleService {
         return userDAO.count();
     }
 
+    @Transactional
+    public User registerNewUserAccount(UserDTO accountDto, BindingResult result) {
+        if (emailExists(accountDto.getEmail())) {
+            result.rejectValue("emailExists", "Istnieje już konto z adresem email " + accountDto.getEmail() + " :(");
+        }
 
+        if (!passwordsMatch(accountDto.getPassword(), accountDto.getMatchingPassword())) {
+            result.rejectValue("passwordMatching", "Podane hasła nie pasują do siebie lub nie spełniają wymagań!");
+        }
+
+        User user = new User();
+        user.setName(accountDto.getName());
+        user.setEmail(accountDto.getEmail());
+        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        user.setActive(1);
+
+        this.addRole(user, UserRoleEnum.USER);
+        //this.addRole(user, UserRoleEnum.ADMIN);
+
+        return userDAO.save(user);
+    }
+
+    private boolean emailExists(String email) {
+        return this.findUserByEmail(email) != null;
+    }
+    private boolean passwordsMatch(String p1, String p2) {
+        return p1.equals(p2) && p1.length()>=6;
+    }
+
+    private void addRole(User user, UserRoleEnum roleEnum) {
+        Set<Role> userRoles = user.getRoles();
+        if (userRoles == null)
+            userRoles = new HashSet<>();
+
+        Role newRole = roleDAO.findByRole(roleEnum).orElse(null);
+        if (newRole != null) {
+            userRoles.add(newRole);
+            user.setRoles(userRoles);
+        }
+    }
+
+    private void deleteRole(User user, UserRoleEnum roleEnum) {
+        Role toRemove = roleDAO.findByRole(roleEnum).orElse(null);
+        if (toRemove != null)
+            user.getRoles().remove(toRemove);
+    }
 }

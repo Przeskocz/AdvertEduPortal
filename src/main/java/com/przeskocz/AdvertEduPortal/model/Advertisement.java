@@ -1,6 +1,5 @@
 package com.przeskocz.AdvertEduPortal.model;
 
-import com.przeskocz.AdvertEduPortal.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
