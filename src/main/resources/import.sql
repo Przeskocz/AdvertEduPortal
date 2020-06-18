@@ -29,3 +29,5 @@ INSERT INTO university VALUES (5, 'Politechnika Krakowska im. Tadeusza Kościusz
 INSERT INTO university VALUES (6, 'Uniwersytet Jagielloński', 'Uniwersytet Jagielloński', 2);
 INSERT INTO university VALUES (7, 'Politechnika Wrocławska', 'Politechnika Wrocławska', 3);
 INSERT INTO university VALUES (8, 'Politechnika Warszawska', 'Politechnika Warszawska', 4);
+
+INSERT INTO advertisement VALUES (1, 'Udzielę korepetycji z Javy na czas wakacji. Cena: 50 zł za 1 godz. Zapraszam! :)', '2020-08-30 00:00:00', 50.00, '2020-06-18 22:25:36.37', 'Korepetycje Java', 7, 1, 1, 1);
