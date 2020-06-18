@@ -7,13 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.przeskocz.AdvertEduPortal.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -46,19 +44,19 @@ public class MainController extends CommonController{
 
         model.addAttribute("user", user);
         model.addAttribute("newAdvertisementsList", advertisementService.getAllNewAdvertisements());
-        model.addAttribute("countUniversiteis", commonService.countAllUniversities());
+        model.addAttribute("countUniversities", commonService.countAllUniversities());
         model.addAttribute("countStudents", userAndRoleService.countAllUsers());
         model.addAttribute("countCategories", commonService.countAllCategories());
         model.addAttribute("countAdvertisements", advertisementService.getAllActualAdvertisements().size());
         return "index";
     }
 
-    @GetMapping({"/logon", "/registration"})
+    @GetMapping({"/login", "/registration"})
     public String loginForm(Model model) {
         buildMyModel(model);
         model.addAttribute("accountDto", new UserDTO());
         model.addAttribute("logout", null);
-        return "logon";
+        return "login";
     }
 
     @PostMapping("/registration")
@@ -68,13 +66,22 @@ public class MainController extends CommonController{
             userAndRoleService.registerNewUserAccount(accountDto, result);
         }
         if (result.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("logon", "accountDto", accountDto);
+            ModelAndView modelAndView = new ModelAndView("login", "accountDto", accountDto);
             buildMyModelAndView(modelAndView);
             return modelAndView;
         } else {
-            ModelAndView modelAndView = new ModelAndView("registration/success", "accountDto", accountDto);
+            ModelAndView modelAndView = new ModelAndView("operations/success", "accountDto", accountDto);
             buildMyModelAndView(modelAndView);
+            modelAndView.addObject("message", "Nowy użytkownik zarejestrowany pomyślnie! :)");
             return modelAndView;
         }
+    }
+
+    @GetMapping("/successlogout")
+    public String logout(Model model) {
+        buildMyModel(model);
+        model.addAttribute("accountDto", new UserDTO());
+        model.addAttribute("logout", "success");
+        return "login";
     }
 }

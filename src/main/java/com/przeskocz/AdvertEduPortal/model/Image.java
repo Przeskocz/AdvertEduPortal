@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 @Data
@@ -21,6 +22,7 @@ public class Image {
     private String alt;
     private String path;
     private String src;
+    private Timestamp timestamp;
 
     @ToString.Exclude
     @ManyToOne()

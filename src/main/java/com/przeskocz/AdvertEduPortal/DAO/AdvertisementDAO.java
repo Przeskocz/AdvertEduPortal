@@ -1,6 +1,7 @@
 package com.przeskocz.AdvertEduPortal.DAO;
 
 import com.przeskocz.AdvertEduPortal.model.Advertisement;
+import com.przeskocz.AdvertEduPortal.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,5 @@ public interface AdvertisementDAO extends CrudRepository<Advertisement, Long> {
     List<Advertisement> findAllByUniversity_NameIgnoreCaseContainingOrUniversity_ShortNameIgnoreCaseContainingAndExpirationDateGreaterThanEqualOrderByStartDateDesc(String name, String shortName, LocalDateTime date);
     List<Advertisement> findAllByTitleIgnoreCaseContainingAndExpirationDateGreaterThanEqualOrderByStartDateDesc(String title, LocalDateTime date);
 
+    List<Advertisement> findAllByUser(User user);
 }

@@ -3,6 +3,7 @@
 </head>
 <body>
 <div th:fragment="advertisement_row">
+    <!--/*@thymesVar id="advertisement" type="com.przeskocz.AdvertEduPortal.model.Advertisement"*/-->
     <tr>
         <td> <!-- Zdjęcie -->
             <img src="../static/img/product01.png"
@@ -21,8 +22,8 @@
         <!-- Data zakończenia -->
         <td th:text="${advertisement.getFormattedExpirationDate()}"></td>
 
-        <!-- Kategoria / Uniwersytet / Miasto -->
-        <td th:text="${advertisement.category?.categoryName + ' / ' + advertisement.university?.shortName + ' / ' + advertisement.city?.cityName }"></td>
+        <!-- Kategoria / Uczelnia / Miasto -->
+        <td th:text="${advertisement.category?.name + ' / ' + advertisement.university?.shortName + ' / ' + advertisement.city?.name }"></td>
 
         <!-- Edytuj / Usuń< -->
         <td>

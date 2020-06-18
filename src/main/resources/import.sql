@@ -15,3 +15,17 @@ INSERT INTO role values (2, 'ADMIN');
 
 INSERT INTO role_user values (1, 1);
 INSERT INTO role_user values (2, 1);
+
+INSERT INTO city VALUES (1, 'Rzeszów');
+INSERT INTO city VALUES(2, 'Kraków');
+INSERT INTO city VALUES (3, 'Wrocław');
+INSERT INTO city VALUES (4, 'Warszawa');
+
+INSERT INTO university VALUES (1, 'Politechnika Rzeszowska im. Ignacego Łukasiewicza', 'Politechnika Rzeszowska', 1);
+INSERT INTO university VALUES (2, 'Uniwersytet Rzeszowski', 'Uniwersytet Rzeszowski', 1);
+INSERT INTO university VALUES (3, 'Wyższa Szkoła Prawa i Administracji Rzeszów', 'WSPiA Rzeszowska Szkoła Wyższa', 1);
+INSERT INTO university VALUES (4, 'Wyższa Szkoła Informatyki i Zarządzania w Rzeszowie', 'WSIiZ w Rzeszowie', 1);
+INSERT INTO university VALUES (5, 'Politechnika Krakowska im. Tadeusza Kościuszki', 'Politechnika Krakowska', 2);
+INSERT INTO university VALUES (6, 'Uniwersytet Jagielloński', 'Uniwersytet Jagielloński', 2);
+INSERT INTO university VALUES (7, 'Politechnika Wrocławska', 'Politechnika Wrocławska', 3);
+INSERT INTO university VALUES (8, 'Politechnika Warszawska', 'Politechnika Warszawska', 4);

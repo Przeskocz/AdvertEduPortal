@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edycja ogłoszenia</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
+
+    <style>
+        table td img {
+            max-width: 80px;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="fragments/header :: header" th:remove="tag"></th:block>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Nowe ogłoszenie</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/user/advertisements">Moje ogłoszenia</a></li>
+                    <li class="active">Edytuj ogłoszenie</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <!-- New Advertisement -->
+                <form th:object="${advertisement}" th:action="*{'/user/advertisements/edit/' + id}"  method="POST" enctype="multipart/form-data">
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Dane ogłoszenia</h3>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Tytuł: </label>
+                            <input id="title" class="input" th:field="*{title}" type="text" placeholder="Tytuł">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Treść: </label>
+                            <textarea id="description" class="input" th:field="*{description}" row="20"
+                                      placeholder="Opis ogłoszenia"> </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Cena: </label>
+                            <input id="price" class="input" th:field="*{price}" type="number" min="0.00" max="10000.00" step="0.10"
+                                   placeholder="Cena" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Kategoria: </label>
+                            <select id="category" class="input" type="text" th:field="*{categoryId}" placeholder="Wpisz/wybierz kategorię">
+                                <!--/*@thymesVar id="mapSearchOptions" type="java.util.Map<java.lang.Long, java.lang.String >"*/-->
+                                <th:block th:each="entry : ${categoriesList?.entrySet()}">
+                                    <option th:value="${entry.key}"
+                                            th:text="${entry.value}">Opcja
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="university">Uczelnia: </label>
+                            <select id="university" class="input" type="text" th:field="*{universityId}"
+                                    placeholder="Wpisz/wybierz nazwę uczelni">
+                                <th:block th:each="university : ${universitiesList}">
+                                    <option th:value="${university.id}" th:text="${university.shortName}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="picture-table">Zdjęcia: </label>
+                            <table id="picture-table" class="table table-hover">
+                                <tbody>
+                                    <tr th:if="*{listOfImages.isEmpty()}">Brak wgranych zdjęć.</tr>
+                                    <tr th:each="img : *{listOfImages}">
+                                        <td style="display: none"><input type="text" name="id" class="form-control" th:value="${img.getId()}" readonly/></td>
+                                        <td><img th:src="${img.getPath()}" th:alt="${img.getAlt()}" /></td>
+                                        <td><input type="button" class="ibtnDel btn btn-md btn-danger "
+                                                   data-toggle="modal" data-target="#confirmDelete" value="Usuń"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="modal" id="confirmDelete">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Usuwanie</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <span id="recordId" style="display: none"></span>Czy na pewno chcesz usunąć zdjęcie?
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" id="deleteOK" class="btn btn-success" data-dismiss="modal">
+                                                Tak
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Nie</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="photos">Dodaj nowe zdjęcia: </label>
+                            <input id="photos" type="file" th:field="*{images}" placeholder="Wybierz zdjęcia" name="file" accept=".jpg,.jpeg,.png" multiple/>
+                        </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Termin ważności: </label>
+                            <input class="input" id="expirationDate" th:field="*{expirationDate}" type="date" required>
+                        </div>
+
+
+                        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="primary-btn order-submit" type="submit">Edytuj ogłoszenie</button>
+                    </div>
+                </form>
+                <!-- /New Advertisement -->
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<th:block th:replace="fragments/footer :: footer" th:remove="tag"></th:block>
+
+<script>
+    $(document).ready(function () {
+        $("table#picture-table").on("click", ".ibtnDel", function (event) {
+            var row = $(this).closest('tr');
+            var index = row.index();
+            var name = row.find('input[name^="name"]').val();
+            $("#recordId").text(index);
+        });
+
+        $("#deleteOK").on("click", function () {
+            var value = $("#recordId").text();
+            var table = $("#picture-table");
+            var tbody = $('tbody', table);
+            var rows = $('tr', tbody);
+            var row = rows.eq(value);
+            var id = row.find('input[name^="id"]').val();
+            if (id) {
+                isDeleted(id, row);
+            }
+        });
+
+    });
+
+    function isDeleted(value, tr) {
+        $.ajax({
+            type: 'get',
+            url: '/user/advertisements/image/delete/' + value,
+            success: function (data, text) {
+                tr.remove();
+                alert("Usunięto zdjęcie.");
+            },
+            error: function (request, status, error) {
+                alert("Nie można usunąć zdjęcia.\nSprawdź ustawienia AdBlock.");
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -65,8 +65,8 @@ public class UserAndRoleService {
         return  userDAO.save(r);
     }
 
-    public User findUserByEmail(String name) {
-        return userDAO.findByName(name).orElse(null);
+    public User findUserByEmail(String email) {
+        return userDAO.findByEmail(email).orElse(userDAO.findByName(email).orElse(null));
     }
 
     public Long countAllUsers() {

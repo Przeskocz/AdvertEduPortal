@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Moje ogłoszenia</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
+
+    <style>
+        table td img {
+            max-width: 80px;
+        }
+
+        ul.my-advertisement-nav {
+            list-style-type: square;
+        }
+        ul.my-advertisement-nav li  {
+            display:inline;
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+<object th:replace="fragments/header :: header" th:remove="tag"> </object>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li th:if="${category != null}"><a href="#" th:text="${category?.categoryName}">Kategoria</a></li>
+                    <li class="active" th:if="${query != null}">
+                        <a href="#" th:text="${query}">MOJE OGŁOSZENIA</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-10">
+                <ul class="my-advertisement-nav">
+                    <li><a href="#active_advertisements">Aktywne</a></li>
+                    <li><a href="#not_active_advertisements">Nieaktywne</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- PANEL -->
+            <div id="store" class="col-md-10">
+                <!-- row -->
+                <div class="row" id="active_advertisements">
+                    <div class="col-md-12">
+                        <div class="container">
+                            <h2>Aktywne ogłoszenia</h2>
+                            <!-- No search results alert -->
+                            <th:block th:if="${advertisementsActualList == null or advertisementsActualList.isEmpty()}">
+                                <div class="alert alert-warning col-md-12">
+                                    <strong>Brak dodanych ogłoszeń</strong>
+                                </div>
+                            </th:block>
+                            <!-- /No search results alert -->
+                            <table class="table table-hover" th:if="${advertisementsActualList != null and !advertisementsActualList.isEmpty()}">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tytuł</th>
+                                    <th>Cena</th>
+                                    <th>Data dodania</th>
+                                    <th>Data zakończenia</th>
+                                    <th>Kategoria / Uczelnia / Miasto</th>
+                                    <th>Edytuj / Usuń</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- advertisement -->
+                                    <th:block th:each="advertisement : ${advertisementsActualList}">
+                                        <object th:include="fragments/advertisement_table :: advertisement_row" th:remove="tag"></object>
+                                    <!-- /advertisement -->
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+
+                <!-- row -->
+                <div class="row" id="not_active_advertisements">
+                    <div class="col-md-12">
+                        <div class="container">
+                            <h2>Nieakwyne ogłoszenia</h2>
+                            <!-- No search results alert -->
+                            <th:block th:if="${advertisementsNotActualList == null or advertisementsNotActualList.isEmpty()}">
+                                <div class="alert alert-warning col-md-12">
+                                    <strong>Brak nieaktywnych ogłoszeń</strong>
+                                </div>
+                            </th:block>
+                            <!-- /No search results alert -->
+                            <table class="table table-hover" th:if="${advertisementsNotActualList != null and !advertisementsNotActualList.isEmpty()}">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tytuł</th>
+                                    <th>Cena</th>
+                                    <th>Data dodania</th>
+                                    <th>Data zakończenia</th>
+                                    <th>Kategoria / Uczelnia / Miasto</th>
+                                    <th>Edytuj / Usuń</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- advertisement -->
+                                <th:block th:each="advertisement : ${advertisementsNotActualList}">
+                                    <object th:include="fragments/advertisement_table :: advertisement_row" th:remove="tag"></object>
+                                    <!-- /advertisement -->
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /PANEL -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<object th:replace="fragments/footer :: footer" th:remove="tag"></object>
+
+</body>
+</html>

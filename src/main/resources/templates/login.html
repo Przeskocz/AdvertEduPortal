@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Logowanie / Rejestracja</title>
-    <object th:include="fragments/header :: header-css" th:remove="tag"></object>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
 
 </head>
 <body>
-<th:block th:replace="fragments/header :: header" th:remove="tag"></th:block>
+<th:block th:replace="fragments/header :: header" th:remove="tag"/>
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
@@ -35,7 +35,7 @@
         <!-- row -->
         <div class="row">
             <div class="col-md-offset-1 col-md-4">
-                <form th:action="@{/registration}" th:object="${accountDto}" method="POST" enctype="utf8">
+                <form th:action="@{/templates/operations}" th:object="${accountDto}" method="POST" enctype="utf8">
                     <!-- Billing Details -->
                     <div class="billing-details">
                         <div class="section-title text-center">
@@ -69,7 +69,7 @@
 
             <!-- Order Details -->
             <div class="col-md-offset-2 col-md-5">
-                <form th:action="@{/logon}" method="post">
+                <form th:action="@{/login}" method="post">
                     <fieldset>
                         <div class="order-details">
                             <div class="section-title text-center">

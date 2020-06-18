@@ -37,6 +37,7 @@ create table image
   alt              varchar(255) null default null,
   path             varchar(255) null default null,
   src              varchar(255) null default null,
+  timestamp        timestamp    null default null,
   advertisement_id int          null default null
 )
 ;

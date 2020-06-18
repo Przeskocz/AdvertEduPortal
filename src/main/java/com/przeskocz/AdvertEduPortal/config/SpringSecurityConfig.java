@@ -44,7 +44,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/home",
                         "/search",
                         "/search/**",
-                        "/logon",
+                        "/login",
                         "/registration/**",
                         "/activation/**",
                         "/advertisement/**",
@@ -58,8 +58,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
-                .loginPage("/logon")
-                .failureUrl("/logon?error=true")
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/", true)
                 .usernameParameter("email").passwordParameter("password")
 

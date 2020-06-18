@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserDAO extends CrudRepository<User, Long> {
     Optional<User> findByNameOrEmail(String name, String email);
     Optional<User> findByName(String name);
+    Optional<User> findByEmail(String name);
 }

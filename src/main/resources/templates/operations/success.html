@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Logowanie/Rejestracja</title>
-    <object th:include="fragments/header :: header-css"/ th:remove="tag">
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
 
 </head>
 <body>
@@ -34,7 +34,7 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            <p>Nie udało założyć się nowego użytkownika. Spróbuj ponownie.</p>
+            <p th:text="${message}">Nowe konto zostało założone. Przejdź do formularza i zaloguj się na swoje konto</p>
         </div>
         <!-- /row -->
     </div>

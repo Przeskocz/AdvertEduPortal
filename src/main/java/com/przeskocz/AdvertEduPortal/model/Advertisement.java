@@ -1,11 +1,16 @@
 package com.przeskocz.AdvertEduPortal.model;
 
+import com.przeskocz.AdvertEduPortal.model.DTO.AdvertisementDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,7 +26,7 @@ public class Advertisement implements Comparable<Advertisement> {
     private String description;
 
     private LocalDateTime expirationDate;
-    private Double price;
+    private BigDecimal price;
     private LocalDateTime startDate;
 
     @ManyToOne()
@@ -50,5 +55,27 @@ public class Advertisement implements Comparable<Advertisement> {
         if (o.startDate == null)
             return -1;
         return o.getStartDate().compareTo(this.startDate);
+    }
+
+    public AdvertisementDTO toDTO() {
+        AdvertisementDTO dto = new AdvertisementDTO();
+        dto.setId(this.getId());
+        dto.setTitle(this.getTitle());
+        dto.setDescription(this.getDescription());
+        dto.setPrice(this.getPrice());
+        dto.setExpirationDate(Date.from(this.getExpirationDate().atZone(ZoneId.systemDefault()).toInstant()));
+        dto.setListOfImages(this.getImages());
+
+        return dto;
+    }
+
+    public String getFormattedStartDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(this.getStartDate());
+    }
+
+    public String getFormattedExpirationDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(this.getExpirationDate());
     }
 }

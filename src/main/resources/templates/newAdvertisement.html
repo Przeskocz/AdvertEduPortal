@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nowe ogłoszenie</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
+
+</head>
+<body>
+<th:block th:replace="fragments/header :: header" th:remove="tag"></th:block>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Nowe ogłoszenie</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Moje ogłoszenia</a></li>
+                    <li class="active">Nowe ogłoszenie</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <!-- New Advertisement -->
+                <form th:action="@{/user/advertisements/new}" th:object="${newAdvertisement}" method="POST" enctype="multipart/form-data">
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Dane ogłoszenia</h3>
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{title}" type="text" placeholder="Tytuł">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="input" th:field="*{description}" row="20"
+                                      placeholder="Opis ogłoszenia"> </textarea>
+                        </div>
+                        <div class="form-group">
+                            <input class="input" th:field="*{price}" type="number" min="0.00" max="10000.00" step="0.10"
+                                   placeholder="Cena" value="">
+                        </div>
+                        <div class="form-group">
+                            <select class="input" type="text" th:field="*{categoryId}"
+                                    placeholder="Wpisz/wybierz kategorię">
+                                <!--/*@thymesVar id="mapSearchOptions" type="java.util.Map<java.lang.Long, java.lang.String >"*/-->
+                                <th:block th:each="entry : ${categoriesList?.entrySet()}">
+                                    <option th:value="${entry.key}"
+                                            th:text="${entry.value}">Opcja
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="input" type="text" th:field="*{universityId}"
+                                    placeholder="Wpisz/wybierz nazwę uczelni">
+                                <th:block th:each="university : ${universitiesList}">
+                                    <option th:value="${university.id}" th:text="${university.shortName}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="file" th:field="*{images}" placeholder="Wybierz zdjęcia" name="file" accept=".jpg,.jpeg,.png" multiple/>
+                        </div>
+                        <div class="form-group">
+                            <label for="expirationDate">Termin ważności: </label>
+                            <input class="input" id="expirationDate" th:field="*{expirationDate}" type="date" required>
+                        </div>
+
+
+                        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Errors</p>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="primary-btn order-submit" type="submit">Dodaj ogłoszenie</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /New Advertisement -->
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<th:block th:replace="fragments/footer :: footer" th:remove="tag"></th:block>
+<stript>
+    const numInputs = document.querySelectorAll('input[type=number]')
+
+    numInputs.forEach(function (input) {
+        input.addEventListener('change', function (e) {
+            if (e.target.value == 0 || e.target.value == '0') {
+                e.target.value = '';
+            }
+        })
+    })
+</stript>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <head>
 </head>
 <body>
+<!--/*@thymesVar id="advertisement" type="com.przeskocz.AdvertEduPortal.model.Advertisement"*/-->
     <div th:fragment="advertisement">
         <div class="advertisement">
             <div class="advertisement-img">
@@ -13,10 +14,10 @@
             </div>
             <div class="advertisement-body">
                 <p class="advertisement-category"
-                   th:text="${advertisement.category?.getCategoryName() + ' / ' + advertisement.university?.shortName}">
+                   th:text="${advertisement.category?.name + ' / ' + advertisement.university?.shortName}">
                     Kategoria</p>
                 <p class="advertisement-place"
-                   th:text="${advertisement.city?.cityName != null ? advertisement.city?.cityName : '&nbsp;'}"></p>
+                   th:text="${advertisement.city?.name != null ? advertisement.city?.name : '&nbsp;'}"></p>
 
                 <h3 class="advertisement-name"><a th:href="${'/advertisement/' + advertisement.id}"
                                             th:text="${advertisement.title}">Tytuł</a></h3>
