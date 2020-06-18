@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -70,12 +71,12 @@ public class Advertisement implements Comparable<Advertisement> {
     }
 
     public String getFormattedStartDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return dateFormat.format(this.getStartDate());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return getStartDate().format(formatter);
     }
 
     public String getFormattedExpirationDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return dateFormat.format(this.getExpirationDate());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return getExpirationDate().format(formatter);
     }
 }
