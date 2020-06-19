@@ -1,7 +1,7 @@
 create table advertisement
 (
   id              int          not null primary key,
-  description     varchar(255) null default null,
+  description     longtext     null default null,
   expiration_date timestamp    null default null,
   price           double       null default null,
   start_date      timestamp    null default null,

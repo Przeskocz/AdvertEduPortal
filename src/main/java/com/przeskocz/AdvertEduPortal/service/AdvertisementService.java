@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -34,7 +33,7 @@ public class AdvertisementService {
     private final CategoryDAO categoryDAO;
     private final UniversityDAO universityDAO;
 
-    private final String RELATIVE_PATH_IMAGE = "\\img\\files";
+    private final String RELATIVE_PATH_IMAGE = "/img/files";
 
     @Autowired
     public AdvertisementService(AdvertisementDAO advertisementDAO, ImageDAO imageDAO, CategoryDAO categoryDAO, UniversityDAO universityDAO) {
@@ -158,7 +157,7 @@ public class AdvertisementService {
             if (extension != null) {
                 try {
                     UUID uuid = UUID.randomUUID();
-                    filename = "\\upload_" + uuid.toString() + (extension.isEmpty() ? "" : "." + extension);
+                    filename = "/upload_" + uuid.toString() + (extension.isEmpty() ? "" : "." + extension);
                     byte[] bytes = file.getBytes();
                     path = this.prepareFileDirectory() + filename;
                     File fsFile = new File(path);
@@ -187,7 +186,11 @@ public class AdvertisementService {
 
     private String prepareFileDirectory() {
         ClassLoader classLoader = getClass().getClassLoader();
-        Path path = Paths.get((classLoader.getResource(".").getPath() + "static" + RELATIVE_PATH_IMAGE).substring(1));
+        //%c5%82
+        String sPath = (classLoader.getResource(".").getPath() + "static" + RELATIVE_PATH_IMAGE)
+                .substring(1)
+                .replace("%c5%82", "ł");
+        Path path = Paths.get(sPath);
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
@@ -286,5 +289,70 @@ public class AdvertisementService {
         saveImagesForAdvertisement(imagesToSave, advertisement);
 
         return advertisement;
+    }
+
+    public List<Advertisement> getAllActualAdvertisementsByUser(User user) {
+        List<Advertisement> actualAdvertisementList = new ArrayList<>();
+        for (Advertisement tmp : getAllActualAdvertisements()) {
+            if (tmp.getUser().equals(user)) {
+                actualAdvertisementList.add(tmp);
+            }
+        }
+        Collections.sort(actualAdvertisementList);
+        return actualAdvertisementList;
+    }
+
+    public List<Advertisement> findAdvertisementsByUniversityName(String universityName) {
+        List<Advertisement> advertisements = new ArrayList<>();
+        for(Advertisement advertisement : advertisementDAO.findAll()) {
+            if(advertisement.getUniversity().getName().equalsIgnoreCase(universityName)
+                    || advertisement.getUniversity().getShortName().equalsIgnoreCase(universityName) && advertisement.isActive()) {
+                advertisements.add(advertisement);
+            }
+        }
+        Collections.sort(advertisements);
+        return advertisements;
+    }
+
+    public List<Advertisement> getAllAdvertisementToSell() {
+        List<Advertisement> advertisements = new ArrayList<>();
+        for(Advertisement tmp : getAllAdvertisements()) {
+            if(tmp.isActive()) {
+                Long catId = tmp.getCategory().getId();
+                if (catId.equals(2L) || catId.equals(4L) || catId.equals(5L)) {
+                    advertisements.add(tmp);
+                }
+            }
+        }
+        Collections.sort(advertisements);
+        return advertisements;
+    }
+
+    public List<Advertisement> getAllAdvertisementToBuy() {
+        List<Advertisement> advertisements = new ArrayList<>();
+        for(Advertisement tmp : getAllAdvertisements()) {
+            if(tmp.isActive()) {
+                Long catId = tmp.getCategory().getId();
+                if (catId.equals(3L) || catId.equals(6L)) {
+                    advertisements.add(tmp);
+                }
+            }
+        }
+        Collections.sort(advertisements);
+        return advertisements;
+    }
+
+    public List<Advertisement> getAllAdvertisementToTutoring() {
+        List<Advertisement> advertisements = new ArrayList<>();
+        for (Advertisement tmp : getAllAdvertisements()) {
+            if (tmp.isActive()) {
+                Long catId = tmp.getCategory().getId();
+                if (catId.equals(7L)) {
+                    advertisements.add(tmp);
+                }
+            }
+        }
+        Collections.sort(advertisements);
+        return advertisements;
     }
 }

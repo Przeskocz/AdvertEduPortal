@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista ogłoszeń</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
+</head>
+<body>
+<object th:replace="fragments/header :: header" th:remove="tag"> </object>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li th:if="${category != null}"><a href="#" th:text="${category?.getName()}">Kategoria</a></li>
+                    <!--/*@thymesVar id="query" type="java.lang.String"*/-->
+                    <li class="active" th:if="${query != null}">
+                        <a href="#" th:text="${'Wyszukiwanie: ' + query}">Wyszukiwanie</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- ASIDE -->
+            <div id="aside" class="col-md-3">
+                <!-- Filters -->
+                <div class="aside">
+                    <h3 class="aside-title">Kategorie</h3>
+                    <div class="checkbox-filter">
+                        <!--Categories-->
+                        <th:block th:each="category : ${advertisementsCategory}">
+                            <div class="input-checkbox" th:if="${category?.id != null}">
+                                <input type="checkbox" th:name="${'category'+category.id}" th:id="${'k'+category.id}">
+                                <label th:for="${'k'+category.id}" th:utext="${category.getName() + '<span></span>'}">
+
+                                </label>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <!-- /Filters -->
+
+                <!-- Filters -->
+                <div class="aside">
+                    <h3 class="aside-title">Uczelnie</h3>
+                    <div class="checkbox-filter">
+                        <!--Categories-->
+                        <th:block th:each="university : ${advertisementsUniversities}">
+                            <div class="input-checkbox" th:if="${university?.id != null}">
+                                <input type="checkbox" th:name="${'uni'+university.id}" th:id="${'uni'+university.id}">
+                                <label th:for="${'uni'+university.id}" th:utext="${university.shortName + '<span></span>'}">
+                                </label>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <!-- /Filters -->
+
+                <!-- Filters -->
+                <div class="aside">
+                    <h3 class="aside-title">Miasta</h3>
+                    <div class="checkbox-filter">
+                        <!--Categories-->
+                        <th:block th:each="city : ${advertisementsCities}">
+                            <div class="input-checkbox" th:if="${city?.id != null}">
+                                <input type="checkbox" th:name="${'city'+city.id}" th:id="${'city'+city.id}">
+                                <label th:for="${'city'+city.id}" th:utext="${city.name + '<span></span>'}">
+                                </label>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+                <div class="aside">
+                    <button class="filter-btn"><i class="fa fa-filter"></i> Filtruj</button>
+                </div>
+                <!-- /Filters -->
+
+            </div>
+            <!-- /ASIDE -->
+
+            <!-- STORE -->
+            <div id="store" class="col-md-8 col-md-offset-1">
+                <!-- store advertisements -->
+                <div class="row">
+                    <!-- No search results alert -->
+                    <th:block th:if="${advertisementsList == null or advertisementsList.isEmpty()}">
+                        <div class="alert alert-warning col-md-12">
+                            <strong>Brak wyników wyszukiwania.</strong>
+                        </div>
+                    </th:block>
+                    <!-- /No search results alert -->
+                    <th:block th:each="advertisement : ${advertisementsList}">
+                        <!-- advertisement -->
+                        <div class="col-md-4 col-xs-6">
+                            <object th:include="fragments/advertisement_card :: advertisement" th:remove="tag"></object>
+                        </div>
+                        <!-- /advertisement -->
+                    </th:block>
+                </div>
+                <!-- /store advertisements -->
+            </div>
+            <!-- /STORE -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<object th:replace="fragments/footer :: footer" th:remove="tag"></object>
+
+</body>
+</html>

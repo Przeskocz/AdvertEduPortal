@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${advertisement?.title}">Ogłoszene</title>
+    <object th:include="fragments/header :: header-css" th:remove="tag"/>
+
+</head>
+<body>
+<object th:replace="fragments/header :: header" th:remove="tag"></object>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/">Home</a></li>
+                    <li th:if="${advertisement?.getCity()?.getName() != null}">
+                        <a href="#" th:text="${advertisement?.getCity()?.getName()}">Miasto</a>
+                    </li>
+                    <li th:if="${advertisement?.getUniversity()?.getShortName() != null}">
+                        <a href="#" th:text="${advertisement?.getUniversity()?.getShortName()}">Uczelnia</a>
+                    </li>
+                    <li th:if="${advertisement?.getCategory()?.getName() != null}">
+                        <a href="#" th:text="${advertisement?.getCategory()?.getName()}">Kategoria</a>
+                    </li>
+                    <li class="active" th:text="${advertisement?.title}">Nazwa</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Advertisement main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="advertisement-main-img">
+                    <div th:each="image : ${advertisement?.images}" class="advertisement-preview">
+                        <img th:src="${image.path}" th:alt="${image.alt}">
+                    </div>
+                    <th:block th:if="${advertisement?.images.isEmpty()}">
+                        <div class="advertisement-preview">
+                            <img th:src="@{/img/product01.png}" th:alt="${advertisement?.title}">
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <!-- /Advertisement main img -->
+
+            <!-- Advertisement thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="advertisement-imgs">
+                    <div th:each="image : ${advertisement?.images}" class="advertisement-preview">
+                        <img th:src="${image.path}" th:alt="${image.alt}">
+                    </div>
+                </div>
+            </div>
+            <!-- /Advertisement thumb imgs -->
+
+            <!-- Advertisement details -->
+            <div class="col-md-5">
+                <div class="advertisement-details">
+                    <h2 class="advertisement-name" th:text="${advertisement?.title}">Tytuł ogłoszenia/produktu</h2>
+                    <div>
+                        <h3 class="advertisement-price" th:text="${advertisement?.price != null} ? ${advertisement?.price + ' zł'}"></h3>
+                    </div>
+
+                    <ul class="advertisement-btns">
+                        <li><a href="#"><i class="fa fa-heart-o"></i> Dodaj to ulubionych</a></li>
+                    </ul>
+
+                    <ul class="advertisement-links">
+                        <li>Właściciel ogłoszenia:</li>
+                        <li><span th:text="${advertisement?.user?.email}">Właściciel</span></li>
+                    </ul>
+                    <ul class="advertisement-links">
+                        <li>Data dodania:</li>
+                        <li class="advertisement-date">
+                            <span th:text="${advertisement.getFormattedStartDate()}">Data dodania</span></li>
+                    </ul>
+                    <ul class="advertisement-links">
+                        <li>Data zakończenia:</li>
+                        <li class="advertisement-date">
+                            <span th:text="${advertisement.getFormattedExpirationDate()}">Data zakończenia</span></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Advertisement details -->
+
+            <!-- Advertisement tab -->
+            <div class="col-md-12">
+                <div id="advertisement-tab">
+                    <!-- advertisement tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Opis</a></li>
+                    </ul>
+                    <!-- /advertisement tab nav -->
+
+                    <!-- advertisement tab content -->
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p th:text="${advertisement?.description}">Dłuższy opis ogłoszenia</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /advertisement tab content  -->
+                </div>
+            </div>
+            <!-- /advertisement tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- Section -->
+<div th:if="${!otherAdvertisements.isEmpty()}" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 class="title">Inne ogłoszenia uzytkownika</h3>
+                </div>
+            </div>
+
+            <!-- 4 advertisements -->
+            <!--/*@thymesVar id="otherAdvertisements" type="java.util.List"*/-->
+            <th:block th:each="advertisement : ${otherAdvertisements}">
+                <div class="col-md-3 col-xs-6">
+                    <object th:include="fragments/advertisement_card :: advertisement" th:remove="tag"></object>
+                </div>
+            </th:block>
+            <!-- /4 advertisements -->
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Section -->
+
+<object th:replace="fragments/footer :: footer" th:remove="tag"></object>
+
+</body>
+</html>

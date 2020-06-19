@@ -1,20 +1,19 @@
 package com.przeskocz.AdvertEduPortal.controller;
 
+import com.przeskocz.AdvertEduPortal.model.*;
 import com.przeskocz.AdvertEduPortal.model.DTO.UserDTO;
-import com.przeskocz.AdvertEduPortal.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import com.przeskocz.AdvertEduPortal.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 public class MainController extends CommonController{
@@ -83,5 +82,50 @@ public class MainController extends CommonController{
         model.addAttribute("accountDto", new UserDTO());
         model.addAttribute("logout", "success");
         return "login";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam("c") Long category, @RequestParam("q") String query) {
+        buildMyModel(model);
+        List<Advertisement> advertisementsSearched = new ArrayList<>();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = new User();
+        if (auth != null)
+            user = userAndRoleService.findUserByEmail(auth.getName());
+
+        model.addAttribute("user", user);
+
+        for (Advertisement tmp : commonService.getSearchAdvertisementsByCriteria(category, query)) {
+            if (tmp.isActive())
+                advertisementsSearched.add(tmp);
+        }
+        Collections.sort(advertisementsSearched);
+        if (query == null || query.isEmpty()) {
+            return "redirect:/home";
+        }
+        model.addAttribute("advertisementsList", advertisementsSearched);
+        if (category != null) {
+            model.addAttribute("category", commonService.findCategoryById(category));
+        }
+
+        if (!query.replace(" ", "").isEmpty()) {
+            model.addAttribute("query", query.replace(" ", ""));
+        }
+
+        Set<Category> advertisementsCategory = new HashSet<>();
+        Set<University> advertisementsUniversities = new HashSet<>();
+        Set<City> advertisementsCities = new HashSet<>();
+        for (Advertisement advertisement : advertisementsSearched) {
+            advertisementsCategory.add(advertisement.getCategory());
+            advertisementsUniversities.add(advertisement.getUniversity());
+            advertisementsCities.add(advertisement.getCity());
+        }
+
+        model.addAttribute("advertisementsCategory", advertisementsCategory);
+        model.addAttribute("advertisementsUniversities", advertisementsUniversities);
+        model.addAttribute("advertisementsCities", advertisementsCities);
+
+        return "stack";
     }
 }

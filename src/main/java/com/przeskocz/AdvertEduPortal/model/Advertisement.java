@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -24,6 +22,7 @@ public class Advertisement implements Comparable<Advertisement> {
     private Long id;
 
     private String title;
+    @Lob
     private String description;
 
     private LocalDateTime expirationDate;
