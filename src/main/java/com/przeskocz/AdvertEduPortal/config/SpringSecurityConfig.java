@@ -23,11 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("SELECT email, password, active FROM user WHERE email=?")
     private String usersQuery;
-    @Value("SELECT user.email, role.role " +
-            "FROM user " +
-            "INNER JOIN role_user ON (user.id=role_user.user_id) " +
-            "INNER JOIN role ON (role_user.role_id=role.id) " +
-            "WHERE user.email=? and user.active=1")
+    @Value("SELECT user.email, role.role FROM user INNER JOIN role_user ON (user.id=role_user.user_id) INNER JOIN role ON (role_user.role_id=role.id) WHERE user.email=? and user.active=1")
     private String rolesQuery;
 
     @Autowired

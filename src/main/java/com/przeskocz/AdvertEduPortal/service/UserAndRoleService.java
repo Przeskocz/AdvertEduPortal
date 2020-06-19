@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class UserAndRoleService {

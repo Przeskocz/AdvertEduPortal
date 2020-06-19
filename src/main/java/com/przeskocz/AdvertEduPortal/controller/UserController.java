@@ -1,6 +1,5 @@
 package com.przeskocz.AdvertEduPortal.controller;
 
-import com.przeskocz.AdvertEduPortal.DAO.ImageDAO;
 import com.przeskocz.AdvertEduPortal.model.Advertisement;
 import com.przeskocz.AdvertEduPortal.model.DTO.AdvertisementDTO;
 import com.przeskocz.AdvertEduPortal.model.User;
@@ -14,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -27,9 +24,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/user")
 public class UserController extends CommonController {
-
     private final AdvertisementService advertisementService;
-
     private final UserAndRoleService userAndRoleServiceService;
 
     @Autowired

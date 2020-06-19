@@ -34,12 +34,12 @@ public class CommonService {
     public Map<Long, String> getSearchOptions() {
         List<Category> categories = (List<Category>) categoryDAO.findAll();
 
-        Map<Long, String> sarchOptions = new TreeMap<>();
+        Map<Long, String> searchOptions = new TreeMap<>();
         for (Category tmp : categories) {
-            sarchOptions.put(tmp.getId(), tmp.getName());
+            searchOptions.put(tmp.getId(), tmp.getName());
         }
 
-        return sarchOptions;
+        return searchOptions;
     }
 
     
