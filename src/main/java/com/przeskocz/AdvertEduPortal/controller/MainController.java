@@ -128,4 +128,16 @@ public class MainController extends CommonController{
 
         return "stack";
     }
+
+    @GetMapping("/403")
+    public String errorPage403(Model model) {
+        buildMyModel(model);
+        return "error/403";
+    }
+
+    @GetMapping("/404")
+    public String errorPage404(Model model) {
+        buildMyModel(model);
+        return "error/404";
+    }
 }
