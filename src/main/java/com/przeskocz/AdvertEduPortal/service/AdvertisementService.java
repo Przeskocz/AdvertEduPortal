@@ -18,6 +18,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -186,8 +187,10 @@ public class AdvertisementService {
 
     private String prepareFileDirectory() {
         ClassLoader classLoader = getClass().getClassLoader();
-        //%c5%82
-        String sPath = (classLoader.getResource(".").getPath() + "static" + RELATIVE_PATH_IMAGE)
+        URL url = classLoader.getResource(".");
+
+        String sPath = url != null ? url.getPath() : "";
+        sPath = (sPath + "static" + RELATIVE_PATH_IMAGE)
                 .substring(1)
                 .replace("%c5%82", "ł");
         Path path = Paths.get(sPath);
@@ -239,7 +242,9 @@ public class AdvertisementService {
 
     private String getStaticPathDirectory() {
         ClassLoader classLoader = getClass().getClassLoader();
-        Path path = Paths.get((classLoader.getResource(".").getPath() + "static").substring(1));
+        URL url = classLoader.getResource(".");
+        String spath = url != null ? url.getPath() : "";
+        Path path = Paths.get((spath + "static").substring(1).replace("%c5%82", "ł"));
         return path.toString();
     }
 
