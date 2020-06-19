@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -23,14 +21,9 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "role_user",
-            joinColumns = {@JoinColumn(name = "role.id")},
-            inverseJoinColumns = {@JoinColumn(name = "user.id")}
-    )
     @ToString.Exclude
-    private List<User> users;
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public Role(UserRoleEnum role) {
         this(-1L, role);
@@ -43,12 +36,9 @@ public class Role {
 
     public boolean addUser(User u) {
         if (users == null)
-            users = new ArrayList<>();
-        if (!users.contains(u)) {
-            users.add(u);
-            return true;
-        }
-        return false;
+            users = new HashSet<>();
+
+        return users.add(u);
     }
 
     @Override

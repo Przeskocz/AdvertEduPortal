@@ -29,16 +29,13 @@ public class UserAndRoleService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Role findOrCreateRole(Role role) {
-        if (role == null)
+    public Role findOrCreateRole(UserRoleEnum roleEnum) {
+        if (roleEnum == null)
             throw new NullPointerException("The role param cannot be null!");
 
-        Role result = roleDAO.findById(role.getId()).orElse(null);
-        if (result == null) {
-            result = roleDAO.findByRole(role.getRole()).orElse(null);
-        }
+        Role result = roleDAO.findByRole(roleEnum).orElse(null);
         if (result == null)
-            result = roleDAO.save(role);
+            result = roleDAO.save(new Role (-1L, roleEnum));
 
         return result;
     }
@@ -103,15 +100,9 @@ public class UserAndRoleService {
     }
 
     private void addRole(User user, UserRoleEnum roleEnum) {
-        Set<Role> userRoles = user.getRoles();
-        if (userRoles == null)
-            userRoles = new HashSet<>();
-
-        Role newRole = roleDAO.findByRole(roleEnum).orElse(null);
-        if (newRole != null) {
-            userRoles.add(newRole);
-            user.setRoles(userRoles);
-        }
+        Role newRole = findOrCreateRole(roleEnum);
+        if (newRole != null)
+            user.addRole(newRole);
     }
 
     private void deleteRole(User user, UserRoleEnum roleEnum) {

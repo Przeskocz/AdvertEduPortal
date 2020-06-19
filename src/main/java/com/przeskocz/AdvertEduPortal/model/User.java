@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -26,7 +27,12 @@ public class User {
     @NonNull
     private String password;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "role_user",
+            joinColumns = {@JoinColumn(name = "user.id")},
+            inverseJoinColumns = {@JoinColumn(name = "role.id")}
+    )
     private Set<Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -43,6 +49,12 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public boolean addRole(Role role) {
+        if (roles == null)
+            roles = new HashSet<>();
+        return roles.add(role);
     }
 
     @Override
