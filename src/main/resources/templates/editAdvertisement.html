@@ -168,25 +168,21 @@
             var row = rows.eq(value);
             var id = row.find('input[name^="id"]').val();
             if (id) {
-                isDeleted(id, row);
+                $.ajax({
+                    type: 'get',
+                    url: '/user/advertisements/image/delete/' + value,
+                    success: function (data, text) {
+                        tr.remove();
+                        alert("Usunięto zdjęcie.");
+                    },
+                    error: function (request, status, error) {
+                        alert("Nie można usunąć zdjęcia.\nSprawdź ustawienia AdBlock.");
+                    }
+                });
             }
         });
 
     });
-
-    function isDeleted(value, tr) {
-        $.ajax({
-            type: 'get',
-            url: '/user/advertisements/image/delete/' + value,
-            success: function (data, text) {
-                tr.remove();
-                alert("Usunięto zdjęcie.");
-            },
-            error: function (request, status, error) {
-                alert("Nie można usunąć zdjęcia.\nSprawdź ustawienia AdBlock.");
-            }
-        });
-    }
 </script>
 </body>
 </html>
