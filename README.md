@@ -36,9 +36,13 @@ The application requires compilation of sources and placing on the Java server, 
 There are already registered users in the system:
 
  - Administrator account:
-Login: *skoczp@gmail.com*
-Password: *qwertyasdfg*
+ 
+ Login: *skoczp@gmail.com* 
+ 
+ Password: *qwertyasdfg*
 
 - User account:
-Login: *zwykly@user.pl*
-Hasło: *qwerty*
+
+Login: *zwykly@user.pl* 
+
+Password: *qwerty*
